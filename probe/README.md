@@ -30,10 +30,10 @@ Model licenses and upstream terms apply independently of this code repository.
 Public Docker Hub image (anonymous pull, `linux/amd64`):
 
 ```text
-bigmy1/wan21-vace-multitalk-probe@sha256:cbce7fd90299f60cafc9b6a5dc8bc8e71f02893330d1cd91f166e12793a66c2a
+bigmy1/wan21-vace-multitalk-probe@sha256:6c9056332807a911104cb2f3eadaf9ed6a53b7bb55fa3152c4254f8052d095b3
 ```
 
-Image source revision: `9d2b7ae7370beab0c91465d3d7c24d90857d8880`.
+Image source revision: `c9839b245046666ea95b9e92df0c5b50dad93142`.
 The image uses PyTorch 2.10.0 / CUDA 12.8. `/opt/environment-freeze.txt` records
 the installed dependencies and `/opt/source-revision.txt` records its source.
 Weights are not embedded in the image. `probe/weights.json` pins all twelve
