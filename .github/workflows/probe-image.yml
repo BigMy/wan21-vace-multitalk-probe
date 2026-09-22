@@ -1,0 +1,45 @@
+name: Build public probe image
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  packages: write
+jobs:
+  image:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reclaim hosted runner disk
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache
+          docker system prune -af
+          df -h
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        id: build
+        with:
+          context: .
+          file: probe/Dockerfile
+          push: true
+          platforms: linux/amd64
+          provenance: false
+          build-args: SOURCE_REVISION=${{ github.sha }}
+          tags: |
+            ghcr.io/bigmy/wan21-vace-multitalk-probe:sha-${{ github.sha }}
+            ghcr.io/bigmy/wan21-vace-multitalk-probe:probe
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Record immutable image
+        run: |
+          echo 'ghcr.io/bigmy/wan21-vace-multitalk-probe@${{ steps.build.outputs.digest }}' > image-digest.txt
+          cat image-digest.txt >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: image-digest
+          path: image-digest.txt

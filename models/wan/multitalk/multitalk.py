@@ -7,7 +7,6 @@ import torchvision.transforms as transforms
 import torch.nn.functional as F
 import torch.nn as nn
 # from shared.utils.multitalk_utils import save_video_ffmpeg
-from preprocessing.kokoro import KPipeline
 from transformers import Wav2Vec2FeatureExtractor
 from .wav2vec2 import Wav2Vec2Model
 
@@ -150,7 +149,8 @@ def audio_prepare_multi(left_path, right_path, audio_type = "add", sample_rate=1
     return new_human_speech1, new_human_speech2, sum_human_speechs, duration_changed
 
 
-def process_tts_single(text, save_dir, voice1):    
+def process_tts_single(text, save_dir, voice1):
+    from preprocessing.kokoro import KPipeline
     s1_sentences = []
 
     pipeline = KPipeline(lang_code='a', device="cpu", repo_id=fl.locate_folder("kokoro"))
@@ -174,6 +174,7 @@ def process_tts_single(text, save_dir, voice1):
    
 
 def process_tts_multi(text, save_dir, voice1, voice2):
+    from preprocessing.kokoro import KPipeline
     pattern = r'\(s(\d+)\)\s*(.*?)(?=\s*\(s\d+\)|$)'
     matches = re.findall(pattern, text, re.DOTALL)
     
