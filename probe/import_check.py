@@ -7,7 +7,8 @@ from unittest.mock import patch
 
 # Upstream attention selects capabilities at import time. This import-only stub
 # is confined to image construction; never used by the inference runner.
-with patch.object(torch.cuda, 'get_device_capability', return_value=(12, 0)):
+with patch.object(torch.cuda, 'get_device_capability', return_value=(12, 0)), \
+     patch.object(torch.cuda, 'current_device', return_value=0):
     from models.wan.any2video import WanAny2V
     from models.wan.multitalk.multitalk import custom_init, get_embedding, get_window_audio_embeddings
     from models.wan.configs import WAN_CONFIGS

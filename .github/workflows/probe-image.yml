@@ -1,12 +1,6 @@
 name: Build public probe image
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - '.github/workflows/probe-image.yml'
-      - 'probe/Dockerfile'
-      - 'probe/requirements.txt'
-      - 'probe/import_check.py'
 permissions:
   contents: read
   packages: write
