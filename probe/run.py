@@ -253,7 +253,7 @@ def main():
                                         'offload_profile':1, 'dtype':'bfloat16', 'vae_dtype':'float32'}
         torch.cuda.reset_peak_memory_stats()
         with rec.phase('generation_including_conditioning'):
-            with torch.inference_mode(), torch.autocast('cuda', dtype=torch.bfloat16):
+            with torch.inference_mode():
                 result = pipe.generate(input_prompt=job['prompt'], input_frames=input_frames,
                                        input_masks=input_masks, input_ref_images=refs, audio_proj=audio,
                                        callback=callback, offloadobj=manager, **settings)
