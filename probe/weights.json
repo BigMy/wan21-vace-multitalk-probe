@@ -1,0 +1,67 @@
+{
+  "repo_id": "DeepBeepMeep/Wan2.1",
+  "revision": "45aaad562bd1944267db209b704c0be6d64c5313",
+  "files": [
+    {
+      "path": "Wan14BT2VFusioniX_fp16.safetensors",
+      "size": 28577792224,
+      "sha256": "78c098c8547b273149e27545b8aba08cb6473a462a4d7ff30b96f5da21fecd3b"
+    },
+    {
+      "path": "wan2.1_Vace_14B_module_mbf16.safetensors",
+      "size": 6574287296,
+      "sha256": "efbdacd7739f04bc99d7a0592db75c075d84862082bd65448d6d885335f9a7fe"
+    },
+    {
+      "path": "wan2.1_multitalk_14B_mbf16.safetensors",
+      "size": 4975194696,
+      "sha256": "224200bb143ce344dc3b26f8ce3adfe9390e04afb3fad94ca88394b3650e09c3"
+    },
+    {
+      "path": "Wan2.1_VAE.safetensors",
+      "size": 507593157,
+      "sha256": "3ce0c02b9470532e7f63f3e2f8e83b0681fdeaa432e969c412482d2b3b78267b"
+    },
+    {
+      "path": "umt5-xxl/models_t5_umt5-xxl-enc-bf16.safetensors",
+      "size": 11361847677,
+      "sha256": "ec346c46bef27b0cca2a02c08757f60632b297cd9d21e759491765b0c6463869"
+    },
+    {
+      "path": "umt5-xxl/special_tokens_map.json",
+      "size": 6623,
+      "sha256": null
+    },
+    {
+      "path": "umt5-xxl/spiece.model",
+      "size": 4548313,
+      "sha256": "e3909a67b780650b35cf529ac782ad2b6b26e6d1f849d3fbb6a872905f452458"
+    },
+    {
+      "path": "umt5-xxl/tokenizer.json",
+      "size": 16837417,
+      "sha256": "6e197b4d3dbd71da14b4eb255f4fa91c9c1f2068b20a2de2472967ca3d22602b"
+    },
+    {
+      "path": "umt5-xxl/tokenizer_config.json",
+      "size": 61728,
+      "sha256": null
+    },
+    {
+      "path": "chinese-wav2vec2-base/config.json",
+      "size": 1951,
+      "sha256": null
+    },
+    {
+      "path": "chinese-wav2vec2-base/pytorch_model.bin",
+      "size": 380261837,
+      "sha256": "be2da40c9e7ae26bfc904a3ed79ebb9e8f060bec6dba85d6a6ae86114bc38901"
+    },
+    {
+      "path": "chinese-wav2vec2-base/preprocessor_config.json",
+      "size": 160,
+      "sha256": null
+    }
+  ],
+  "total_bytes": 52398433079
+}
