@@ -176,6 +176,7 @@ def main():
         from models.wan.configs import WAN_CONFIGS
         from models.wan.multitalk.multitalk import custom_init, get_embedding, get_window_audio_embeddings, audio_prepare_multi
         from shared.utils import files_locator as fl
+        from shared.utils.loras_mutipliers import parse_loras_multipliers
         fl.set_checkpoints_paths([str(weights)])
         offload.shared_state['_attention'] = 'sdpa'
 
@@ -249,6 +250,11 @@ def main():
                     'apg_switch':False, 'joint_pass':False, 'context_scale':[1.],
                     'color_correction_strength':0., 'VAE_tile_size':0, 'fps':25,
                     'video_prompt_type':'VMI', 'model_type':'vace_multitalk_14B'}
+        # The UI always prepares this structure, even when no extra LoRAs are
+        # selected. Native generate() dereferences phase1 before sampling.
+        _, empty_loras, lora_error = parse_loras_multipliers('', 0, settings['sampling_steps'], nb_phases=1)
+        assert not lora_error and not empty_loras['phase1']
+        report['additional_loras'] = empty_loras
         report['effective_settings'] = {**settings, 'attention':'sdpa', 'quantization':False,
                                         'offload_profile':1, 'dtype':'bfloat16', 'vae_dtype':'float32'}
         torch.cuda.reset_peak_memory_stats()
@@ -256,7 +262,7 @@ def main():
             with torch.inference_mode():
                 result = pipe.generate(input_prompt=job['prompt'], input_frames=input_frames,
                                        input_masks=input_masks, input_ref_images=refs, audio_proj=audio,
-                                       callback=callback, offloadobj=manager, **settings)
+                                       callback=callback, offloadobj=manager, loras_slists=empty_loras, **settings)
         report['generation_peak_allocated_bytes'] = torch.cuda.max_memory_allocated()
         report['generation_peak_reserved_bytes'] = torch.cuda.max_memory_reserved()
         pixels = result['x']

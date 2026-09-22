@@ -24,3 +24,45 @@ peak allocated/reserved memory and NVML device memory; do not infer a different
 GPU's speed or capacity from model parameter size alone.
 
 Model licenses and upstream terms apply independently of this code repository.
+
+## Published runtime
+
+Public Docker Hub image (anonymous pull, `linux/amd64`):
+
+```text
+bigmy1/wan21-vace-multitalk-probe@sha256:cbce7fd90299f60cafc9b6a5dc8bc8e71f02893330d1cd91f166e12793a66c2a
+```
+
+Image source revision: `9d2b7ae7370beab0c91465d3d7c24d90857d8880`.
+The image uses PyTorch 2.10.0 / CUDA 12.8. `/opt/environment-freeze.txt` records
+the installed dependencies and `/opt/source-revision.txt` records its source.
+Weights are not embedded in the image. `probe/weights.json` pins all twelve
+required public files, approximately 52.40 GB, to a Hugging Face revision.
+
+For Vast SSH mode, use this on-start command to allow noninteractive SSH/rsync:
+
+```sh
+touch /root/.no_auto_tmux
+mkdir -p /workspace/probe
+```
+
+After placing a prepared job and media under `/workspace/probe/inputs/`, run:
+
+```sh
+python /opt/Wan2GP/probe/download_weights.py --destination /workspace/probe/weights
+python /opt/Wan2GP/probe/run.py \
+  --job /workspace/probe/inputs/example/job.json \
+  --weights /workspace/probe/weights \
+  --output /workspace/probe/results/example
+```
+
+The output directory must be new. Each run writes `metrics.json` and
+`telemetry.jsonl`, including on failure, and on success writes lossless `raw.mkv`
+plus `raw_with_audio.mp4`. The job paths refer to the container filesystem.
+Use `python probe/prepare_case.py --help` for the private input preparation
+adapter; `--prefix` must match the actual prefix in that input, not an assumed
+requirement of this model. Prepared inputs must have `4n+1` frames at 25 fps.
+
+To rebuild, use `probe/Dockerfile` with a full `SOURCE_REVISION` build argument.
+The optional manual GitHub workflow publishes to GHCR; its package visibility
+must be configured separately before assuming anonymous pulls are available.
